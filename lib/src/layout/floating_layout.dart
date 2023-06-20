@@ -128,9 +128,12 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                               child: Column(
                                 children: [
                                   widget.client.sessionController.value
-                                              .users[index].uid ==
+                                                  .users[index].uid ==
+                                              widget.client.sessionController
+                                                  .value.localUid &&
                                           widget.client.sessionController.value
-                                              .localUid
+                                                  .users[index].uid !=
+                                              0
                                       ? Expanded(
                                           child: Container(
                                             color: Colors.black,
