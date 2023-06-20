@@ -269,34 +269,34 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                             ),
                                                           ),
                                                         ),
-                                                        // Align(
-                                                        //   alignment: Alignment
-                                                        //       .topRight,
-                                                        //   child:
-                                                        //       widget.enableHostControl !=
-                                                        //               true
-                                                        //           ? Container()
-                                                        //           : HostControls(
-                                                        //               client: widget
-                                                        //                   .client,
-                                                        //               videoDisabled: widget
-                                                        //                   .client
-                                                        //                   .sessionController
-                                                        //                   .value
-                                                        //                   .users[
-                                                        //                       index]
-                                                        //                   .videoDisabled,
-                                                        //               muted: widget
-                                                        //                   .client
-                                                        //                   .sessionController
-                                                        //                   .value
-                                                        //                   .users[
-                                                        //                       index]
-                                                        //                   .muted,
-                                                        //               index:
-                                                        //                   index,
-                                                        //             ),
-                                                        // ),
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .topRight,
+                                                          child:
+                                                              widget.enableHostControl !=
+                                                                      true
+                                                                  ? Container()
+                                                                  : HostControls(
+                                                                      client: widget
+                                                                          .client,
+                                                                      videoDisabled: widget
+                                                                          .client
+                                                                          .sessionController
+                                                                          .value
+                                                                          .users[
+                                                                              index]
+                                                                          .videoDisabled,
+                                                                      muted: widget
+                                                                          .client
+                                                                          .sessionController
+                                                                          .value
+                                                                          .users[
+                                                                              index]
+                                                                          .muted,
+                                                                      index:
+                                                                          index,
+                                                                    ),
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
@@ -384,34 +384,34 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                             ),
                                                           ),
                                                         ),
-                                                        // Align(
-                                                        //   alignment: Alignment
-                                                        //       .topRight,
-                                                        //   child:
-                                                        //       widget.enableHostControl !=
-                                                        //               true
-                                                        //           ? Container()
-                                                        //           : HostControls(
-                                                        //               client: widget
-                                                        //                   .client,
-                                                        //               videoDisabled: widget
-                                                        //                   .client
-                                                        //                   .sessionController
-                                                        //                   .value
-                                                        //                   .users[
-                                                        //                       index]
-                                                        //                   .videoDisabled,
-                                                        //               muted: widget
-                                                        //                   .client
-                                                        //                   .sessionController
-                                                        //                   .value
-                                                        //                   .users[
-                                                        //                       index]
-                                                        //                   .muted,
-                                                        //               index:
-                                                        //                   index,
-                                                        //             ),
-                                                        // ),
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .topRight,
+                                                          child:
+                                                              widget.enableHostControl !=
+                                                                      true
+                                                                  ? Container()
+                                                                  : HostControls(
+                                                                      client: widget
+                                                                          .client,
+                                                                      videoDisabled: widget
+                                                                          .client
+                                                                          .sessionController
+                                                                          .value
+                                                                          .users[
+                                                                              index]
+                                                                          .videoDisabled,
+                                                                      muted: widget
+                                                                          .client
+                                                                          .sessionController
+                                                                          .value
+                                                                          .users[
+                                                                              index]
+                                                                          .muted,
+                                                                      index:
+                                                                          index,
+                                                                    ),
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
