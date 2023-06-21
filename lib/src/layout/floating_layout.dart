@@ -622,7 +622,7 @@ class _FloatingLayoutState extends State<FloatingLayout> {
               if (isPinned != null)
                 Positioned.fill(
                   child: Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.centerRight,
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: GestureDetector(
