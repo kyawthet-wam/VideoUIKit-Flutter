@@ -62,6 +62,10 @@ class FloatingLayout extends StatefulWidget {
 }
 
 class _FloatingLayoutState extends State<FloatingLayout> {
+  int? isPinned;
+  final snackBar =
+      SnackBar(content: const Text('Please remove pinned user first!'));
+
   Widget _getLocalViews() {
     return widget.client.sessionController.value.isScreenShared
         ? AgoraVideoView(
@@ -179,10 +183,19 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                               8),
                                                       child: GestureDetector(
                                                         onTap: () {
-                                                          widget.client
-                                                              .sessionController
-                                                              .swapUser(
-                                                                  index: index);
+                                                          if (isPinned ==
+                                                              null) {
+                                                            widget.client
+                                                                .sessionController
+                                                                .swapUser(
+                                                                    index:
+                                                                        index);
+                                                          } else {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    snackBar);
+                                                          }
                                                         },
                                                         child: Container(
                                                           height: 24,
@@ -245,11 +258,19 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                             child:
                                                                 GestureDetector(
                                                               onTap: () {
-                                                                widget.client
-                                                                    .sessionController
-                                                                    .swapUser(
-                                                                        index:
-                                                                            index);
+                                                                if (isPinned ==
+                                                                    null) {
+                                                                  widget.client
+                                                                      .sessionController
+                                                                      .swapUser(
+                                                                          index:
+                                                                              index);
+                                                                } else {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                          snackBar);
+                                                                }
                                                               },
                                                               child: Container(
                                                                 decoration:
@@ -360,11 +381,19 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                             child:
                                                                 GestureDetector(
                                                               onTap: () {
-                                                                widget.client
-                                                                    .sessionController
-                                                                    .swapUser(
-                                                                        index:
-                                                                            index);
+                                                                if (isPinned ==
+                                                                    null) {
+                                                                  widget.client
+                                                                      .sessionController
+                                                                      .swapUser(
+                                                                          index:
+                                                                              index);
+                                                                } else {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                          snackBar);
+                                                                }
                                                               },
                                                               child: Container(
                                                                 decoration:
@@ -579,6 +608,35 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                         ),
                       ),
                     ),
+              if (isPinned != null)
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: GestureDetector(
+                        onTap: () {
+                          widget.client.sessionController
+                              .swapUser(index: isPinned!);
+                          setState(() {
+                            isPinned = null;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(3.0),
+                          child: Text(
+                            'Unpin',
+                            style: TextStyle(color: Colors.blue, fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               Positioned.fill(
                 child: Align(
                   alignment: Alignment.bottomCenter,
