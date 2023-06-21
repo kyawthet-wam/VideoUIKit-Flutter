@@ -165,39 +165,39 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                       )
                                                     : widget
                                                         .disabledVideoWidget,
-                                                Positioned.fill(
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          widget.client
-                                                              .sessionController
-                                                              .swapUser(
-                                                                  index: index);
-                                                        },
-                                                        child: Container(
-                                                          height: 24,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.blue,
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                          child: Icon(
-                                                            Icons
-                                                                .push_pin_rounded,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                                // Positioned.fill(
+                                                //   child: Align(
+                                                //     alignment:
+                                                //         Alignment.topLeft,
+                                                //     child: Padding(
+                                                //       padding:
+                                                //           const EdgeInsets.all(
+                                                //               8),
+                                                //       child: GestureDetector(
+                                                //         onTap: () {
+                                                //           widget.client
+                                                //               .sessionController
+                                                //               .swapUser(
+                                                //                   index: index);
+                                                //         },
+                                                //         child: Container(
+                                                //           height: 24,
+                                                //           decoration:
+                                                //               BoxDecoration(
+                                                //             color: Colors.blue,
+                                                //             shape:
+                                                //                 BoxShape.circle,
+                                                //           ),
+                                                //           child: Icon(
+                                                //             Icons
+                                                //                 .push_pin_rounded,
+                                                //             color: Colors.white,
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // ),
                                                 widget.showAVState!
                                                     ? UserAVStateWidget(
                                                         videoDisabled: widget
@@ -231,44 +231,44 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                           MainAxisAlignment
                                                               .spaceBetween,
                                                       children: [
-                                                        Align(
-                                                          alignment:
-                                                              Alignment.topLeft,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () {
-                                                                widget.client
-                                                                    .sessionController
-                                                                    .swapUser(
-                                                                        index:
-                                                                            index);
-                                                              },
-                                                              child: Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        3.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .push_pin_rounded,
-                                                                  color: Colors
-                                                                      .blue,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
+                                                        // Align(
+                                                        //   alignment:
+                                                        //       Alignment.topLeft,
+                                                        //   child: Padding(
+                                                        //     padding:
+                                                        //         const EdgeInsets
+                                                        //             .all(8),
+                                                        //     child:
+                                                        //         GestureDetector(
+                                                        //       onTap: () {
+                                                        //         widget.client
+                                                        //             .sessionController
+                                                        //             .swapUser(
+                                                        //                 index:
+                                                        //                     index);
+                                                        //       },
+                                                        //       child: Container(
+                                                        //         decoration:
+                                                        //             BoxDecoration(
+                                                        //           color: Colors
+                                                        //               .white,
+                                                        //           shape: BoxShape
+                                                        //               .circle,
+                                                        //         ),
+                                                        //         padding:
+                                                        //             const EdgeInsets
+                                                        //                     .all(
+                                                        //                 3.0),
+                                                        //         child: Icon(
+                                                        //           Icons
+                                                        //               .push_pin_rounded,
+                                                        //           color: Colors
+                                                        //               .blue,
+                                                        //         ),
+                                                        //       ),
+                                                        //     ),
+                                                        //   ),
+                                                        // ),
                                                         Align(
                                                           alignment: Alignment
                                                               .topRight,
@@ -346,44 +346,44 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                           MainAxisAlignment
                                                               .spaceBetween,
                                                       children: [
-                                                        Align(
-                                                          alignment:
-                                                              Alignment.topLeft,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () {
-                                                                widget.client
-                                                                    .sessionController
-                                                                    .swapUser(
-                                                                        index:
-                                                                            index);
-                                                              },
-                                                              child: Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        3.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .push_pin_rounded,
-                                                                  color: Colors
-                                                                      .blue,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
+                                                        // Align(
+                                                        //   alignment:
+                                                        //       Alignment.topLeft,
+                                                        //   child: Padding(
+                                                        //     padding:
+                                                        //         const EdgeInsets
+                                                        //             .all(8),
+                                                        //     child:
+                                                        //         GestureDetector(
+                                                        //       onTap: () {
+                                                        //         widget.client
+                                                        //             .sessionController
+                                                        //             .swapUser(
+                                                        //                 index:
+                                                        //                     index);
+                                                        //       },
+                                                        //       child: Container(
+                                                        //         decoration:
+                                                        //             BoxDecoration(
+                                                        //           color: Colors
+                                                        //               .white,
+                                                        //           shape: BoxShape
+                                                        //               .circle,
+                                                        //         ),
+                                                        //         padding:
+                                                        //             const EdgeInsets
+                                                        //                     .all(
+                                                        //                 3.0),
+                                                        //         child: Icon(
+                                                        //           Icons
+                                                        //               .push_pin_rounded,
+                                                        //           color: Colors
+                                                        //               .blue,
+                                                        //         ),
+                                                        //       ),
+                                                        //     ),
+                                                        //   ),
+                                                        // ),
                                                         Align(
                                                           alignment: Alignment
                                                               .topRight,
