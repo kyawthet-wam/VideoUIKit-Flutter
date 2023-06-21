@@ -63,8 +63,7 @@ class FloatingLayout extends StatefulWidget {
 
 class _FloatingLayoutState extends State<FloatingLayout> {
   int? isPinned;
-  final snackBar =
-      SnackBar(content: const Text('Please remove pinned user first!'));
+  final snackBar = SnackBar(content: const Text('Please unpin user first!'));
 
   Widget _getLocalViews() {
     return widget.client.sessionController.value.isScreenShared
@@ -119,10 +118,6 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.client.sessionController.value.users.length,
                   itemBuilder: (BuildContext context, int index) {
-                    print(
-                        'object&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-                    print(
-                        'AGORA USER ${widget.client.sessionController.value.users[index].uid}');
                     return widget.client.sessionController.value.users[index]
                                 .uid !=
                             widget.client.sessionController.value.mainAgoraUser
@@ -635,10 +630,9 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          padding: const EdgeInsets.all(3.0),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'Unpin',
                             style: TextStyle(color: Colors.blue, fontSize: 12),
