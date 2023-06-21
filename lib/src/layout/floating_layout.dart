@@ -630,12 +630,13 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Unpin',
-                            style: TextStyle(color: Colors.blue, fontSize: 12),
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(3.0),
+                          child: Icon(
+                            Icons.pin_invoke_rounded,
+                            color: Colors.blue,
                           ),
                         ),
                       ),
