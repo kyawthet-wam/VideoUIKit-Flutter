@@ -188,14 +188,14 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                           height: 24,
                                                           decoration:
                                                               BoxDecoration(
-                                                            color: Colors.blue,
+                                                            color: Colors.white,
                                                             shape:
                                                                 BoxShape.circle,
                                                           ),
                                                           child: Icon(
                                                             Icons
                                                                 .push_pin_rounded,
-                                                            color: Colors.white,
+                                                            color: Colors.blue,
                                                           ),
                                                         ),
                                                       ),
