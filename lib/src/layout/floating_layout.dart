@@ -190,6 +190,9 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                 .swapUser(
                                                                     index:
                                                                         index);
+                                                            setState(() {
+                                                              isPinned = index;
+                                                            });
                                                           } else {
                                                             ScaffoldMessenger
                                                                     .of(context)
@@ -265,6 +268,10 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                       .swapUser(
                                                                           index:
                                                                               index);
+                                                                  setState(() {
+                                                                    isPinned =
+                                                                        index;
+                                                                  });
                                                                 } else {
                                                                   ScaffoldMessenger.of(
                                                                           context)
@@ -388,6 +395,10 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                       .swapUser(
                                                                           index:
                                                                               index);
+                                                                  setState(() {
+                                                                    isPinned =
+                                                                        index;
+                                                                  });
                                                                 } else {
                                                                   ScaffoldMessenger.of(
                                                                           context)
