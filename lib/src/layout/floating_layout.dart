@@ -115,6 +115,8 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.client.sessionController.value.users.length,
                   itemBuilder: (BuildContext context, int index) {
+                    print(
+                        'AGORA USER ${widget.client.sessionController.value.users[index].uid}');
                     return widget.client.sessionController.value.users[index]
                                 .uid !=
                             widget.client.sessionController.value.mainAgoraUser
