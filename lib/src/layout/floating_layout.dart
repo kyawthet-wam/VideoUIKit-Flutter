@@ -116,6 +116,8 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                   itemCount: widget.client.sessionController.value.users.length,
                   itemBuilder: (BuildContext context, int index) {
                     print(
+                        'object&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+                    print(
                         'AGORA USER ${widget.client.sessionController.value.users[index].uid}');
                     return widget.client.sessionController.value.users[index]
                                 .uid !=
