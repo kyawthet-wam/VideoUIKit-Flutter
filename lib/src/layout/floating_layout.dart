@@ -107,69 +107,128 @@ class _FloatingLayoutState extends State<FloatingLayout> {
 
   Widget _viewFloat() {
     return widget.client.sessionController.value.users.isNotEmpty
-        ? Column(
-            children: [
-              Container(
-                height: widget.floatingLayoutContainerHeight ??
-                    MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.topLeft,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: widget.client.sessionController.value.users.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return widget.client.sessionController.value.users[index]
-                                .uid !=
-                            widget.client.sessionController.value.mainAgoraUser
-                                .uid
-                        ? Padding(
-                            key: Key('$index'),
-                            padding: widget.floatingLayoutSubViewPadding,
-                            child: Container(
-                              width: widget.floatingLayoutContainerWidth ??
-                                  MediaQuery.of(context).size.width / 3,
-                              child: Column(
-                                children: [
-                                  widget.client.sessionController.value
-                                                  .users[index].uid ==
-                                              widget.client.sessionController
-                                                  .value.localUid ||
-                                          widget.client.sessionController.value
-                                                  .users[index].uid ==
-                                              0
-                                      ? Expanded(
-                                          child: Container(
-                                            color: Colors.black,
-                                            child: Stack(
-                                              children: [
-                                                Center(
-                                                  child: Text(
-                                                    'Local User',
-                                                    style: TextStyle(
+        ? Wrap(
+            children: widget.client.sessionController.value.users.map((e) {
+              final index =
+                  widget.client.sessionController.value.users.indexOf(e);
+
+              return widget.client.sessionController.value.users[index].uid !=
+                      widget.client.sessionController.value.mainAgoraUser.uid
+                  ? Padding(
+                      key: Key('$index'),
+                      padding: widget.floatingLayoutSubViewPadding,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: widget.floatingLayoutContainerWidth ??
+                            MediaQuery.of(context).size.width / 3,
+                        child: Column(
+                          children: [
+                            widget.client.sessionController.value.users[index]
+                                            .uid ==
+                                        widget.client.sessionController.value
+                                            .localUid ||
+                                    widget.client.sessionController.value
+                                            .users[index].uid ==
+                                        0
+                                ? Expanded(
+                                    child: Container(
+                                      color: Colors.black,
+                                      child: Stack(
+                                        children: [
+                                          Center(
+                                            child: Text(
+                                              'Local User',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          !widget.client.sessionController.value
+                                                      .isLocalVideoDisabled &&
+                                                  !widget
+                                                      .client
+                                                      .sessionController
+                                                      .value
+                                                      .isScreenShared
+                                              ? Column(
+                                                  children: [
+                                                    _videoView(
+                                                        _getLocalViews()),
+                                                  ],
+                                                )
+                                              : widget.disabledVideoWidget,
+                                          Positioned.fill(
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    if (isPinned == null) {
+                                                      widget.client
+                                                          .sessionController
+                                                          .swapUser(
+                                                              index: index);
+                                                      setState(() {
+                                                        isPinned = index;
+                                                      });
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
                                                       color: Colors.white,
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.push_pin_rounded,
+                                                      color: Colors.blue,
                                                     ),
                                                   ),
                                                 ),
-                                                !widget
-                                                            .client
-                                                            .sessionController
-                                                            .value
-                                                            .isLocalVideoDisabled &&
-                                                        !widget
-                                                            .client
-                                                            .sessionController
-                                                            .value
-                                                            .isScreenShared
-                                                    ? Column(
-                                                        children: [
-                                                          _videoView(
-                                                              _getLocalViews()),
-                                                        ],
-                                                      )
-                                                    : widget
-                                                        .disabledVideoWidget,
-                                                Positioned.fill(
-                                                  child: Align(
+                                              ),
+                                            ),
+                                          ),
+                                          widget.showAVState!
+                                              ? UserAVStateWidget(
+                                                  videoDisabled: widget
+                                                      .client
+                                                      .sessionController
+                                                      .value
+                                                      .isLocalVideoDisabled,
+                                                  muted: widget
+                                                      .client
+                                                      .sessionController
+                                                      .value
+                                                      .isLocalUserMuted,
+                                                )
+                                              : Container(),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : widget.client.sessionController.value
+                                        .users[index].videoDisabled
+                                    ? Expanded(
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              color: Colors.black,
+                                            ),
+                                            widget.disabledVideoWidget,
+                                            Positioned.fill(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Align(
                                                     alignment:
                                                         Alignment.topLeft,
                                                     child: Padding(
@@ -196,13 +255,15 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                           }
                                                         },
                                                         child: Container(
-                                                          height: 24,
                                                           decoration:
                                                               BoxDecoration(
                                                             color: Colors.white,
                                                             shape:
                                                                 BoxShape.circle,
                                                           ),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(3.0),
                                                           child: Icon(
                                                             Icons
                                                                 .push_pin_rounded,
@@ -212,356 +273,639 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                       ),
                                                     ),
                                                   ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child:
+                                                        widget.enableHostControl !=
+                                                                true
+                                                            ? Container()
+                                                            : HostControls(
+                                                                client: widget
+                                                                    .client,
+                                                                videoDisabled: widget
+                                                                    .client
+                                                                    .sessionController
+                                                                    .value
+                                                                    .users[
+                                                                        index]
+                                                                    .videoDisabled,
+                                                                muted: widget
+                                                                    .client
+                                                                    .sessionController
+                                                                    .value
+                                                                    .users[
+                                                                        index]
+                                                                    .muted,
+                                                                index: index,
+                                                              ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Positioned.fill(
+                                                child: Align(
+                                              alignment: Alignment.bottomLeft,
+                                            )),
+                                            widget.showAVState!
+                                                ? UserAVStateWidget(
+                                                    videoDisabled: widget
+                                                        .client
+                                                        .sessionController
+                                                        .value
+                                                        .users[index]
+                                                        .videoDisabled,
+                                                    muted: widget
+                                                        .client
+                                                        .sessionController
+                                                        .value
+                                                        .users[index]
+                                                        .muted)
+                                                : Container(),
+                                          ],
+                                        ),
+                                      )
+                                    : Expanded(
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                _videoView(
+                                                  _getRemoteViews(
+                                                    widget
+                                                        .client
+                                                        .sessionController
+                                                        .value
+                                                        .users[index]
+                                                        .uid,
+                                                  ),
                                                 ),
-                                                widget.showAVState!
-                                                    ? UserAVStateWidget(
-                                                        videoDisabled: widget
-                                                            .client
-                                                            .sessionController
-                                                            .value
-                                                            .isLocalVideoDisabled,
-                                                        muted: widget
-                                                            .client
-                                                            .sessionController
-                                                            .value
-                                                            .isLocalUserMuted,
-                                                      )
-                                                    : Container(),
                                               ],
                                             ),
-                                          ),
-                                        )
-                                      : widget.client.sessionController.value
-                                              .users[index].videoDisabled
-                                          ? Expanded(
-                                              child: Stack(
+                                            Positioned.fill(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Container(
-                                                    color: Colors.black,
-                                                  ),
-                                                  widget.disabledVideoWidget,
-                                                  Positioned.fill(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Align(
-                                                          alignment:
-                                                              Alignment.topLeft,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () {
-                                                                if (isPinned ==
-                                                                    null) {
-                                                                  widget.client
-                                                                      .sessionController
-                                                                      .swapUser(
-                                                                          index:
-                                                                              index);
-                                                                  setState(() {
-                                                                    isPinned =
-                                                                        index;
-                                                                  });
-                                                                } else {
-                                                                  ScaffoldMessenger.of(
-                                                                          context)
-                                                                      .showSnackBar(
-                                                                          snackBar);
-                                                                }
-                                                              },
-                                                              child: Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        3.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .push_pin_rounded,
-                                                                  color: Colors
-                                                                      .blue,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .topRight,
-                                                          child:
-                                                              widget.enableHostControl !=
-                                                                      true
-                                                                  ? Container()
-                                                                  : HostControls(
-                                                                      client: widget
-                                                                          .client,
-                                                                      videoDisabled: widget
-                                                                          .client
-                                                                          .sessionController
-                                                                          .value
-                                                                          .users[
-                                                                              index]
-                                                                          .videoDisabled,
-                                                                      muted: widget
-                                                                          .client
-                                                                          .sessionController
-                                                                          .value
-                                                                          .users[
-                                                                              index]
-                                                                          .muted,
-                                                                      index:
-                                                                          index,
-                                                                    ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Positioned.fill(
-                                                      child: Align(
+                                                  Align(
                                                     alignment:
-                                                        Alignment.bottomLeft,
-                                                  )),
-                                                  widget.showAVState!
-                                                      ? UserAVStateWidget(
-                                                          videoDisabled: widget
-                                                              .client
-                                                              .sessionController
-                                                              .value
-                                                              .users[index]
-                                                              .videoDisabled,
-                                                          muted: widget
-                                                              .client
-                                                              .sessionController
-                                                              .value
-                                                              .users[index]
-                                                              .muted)
-                                                      : Container(),
-                                                ],
-                                              ),
-                                            )
-                                          : Expanded(
-                                              child: Stack(
-                                                children: [
-                                                  Column(
-                                                    children: [
-                                                      _videoView(
-                                                        _getRemoteViews(
-                                                          widget
-                                                              .client
-                                                              .sessionController
-                                                              .value
-                                                              .users[index]
-                                                              .uid,
+                                                        Alignment.topLeft,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          if (isPinned ==
+                                                              null) {
+                                                            widget.client
+                                                                .sessionController
+                                                                .swapUser(
+                                                                    index:
+                                                                        index);
+                                                            setState(() {
+                                                              isPinned = index;
+                                                            });
+                                                          } else {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    snackBar);
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            shape:
+                                                                BoxShape.circle,
+                                                          ),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(3.0),
+                                                          child: Icon(
+                                                            Icons
+                                                                .push_pin_rounded,
+                                                            color: Colors.blue,
+                                                          ),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                  Positioned.fill(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Align(
-                                                          alignment:
-                                                              Alignment.topLeft,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () {
-                                                                if (isPinned ==
-                                                                    null) {
-                                                                  widget.client
-                                                                      .sessionController
-                                                                      .swapUser(
-                                                                          index:
-                                                                              index);
-                                                                  setState(() {
-                                                                    isPinned =
-                                                                        index;
-                                                                  });
-                                                                } else {
-                                                                  ScaffoldMessenger.of(
-                                                                          context)
-                                                                      .showSnackBar(
-                                                                          snackBar);
-                                                                }
-                                                              },
-                                                              child: Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        3.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .push_pin_rounded,
-                                                                  color: Colors
-                                                                      .blue,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .topRight,
-                                                          child:
-                                                              widget.enableHostControl !=
-                                                                      true
-                                                                  ? Container()
-                                                                  : HostControls(
-                                                                      client: widget
-                                                                          .client,
-                                                                      videoDisabled: widget
-                                                                          .client
-                                                                          .sessionController
-                                                                          .value
-                                                                          .users[
-                                                                              index]
-                                                                          .videoDisabled,
-                                                                      muted: widget
-                                                                          .client
-                                                                          .sessionController
-                                                                          .value
-                                                                          .users[
-                                                                              index]
-                                                                          .muted,
-                                                                      index:
-                                                                          index,
-                                                                    ),
-                                                        ),
-                                                      ],
                                                     ),
                                                   ),
-                                                  widget.showAVState!
-                                                      ? UserAVStateWidget(
-                                                          videoDisabled: widget
-                                                              .client
-                                                              .sessionController
-                                                              .value
-                                                              .users[index]
-                                                              .videoDisabled,
-                                                          muted: widget
-                                                              .client
-                                                              .sessionController
-                                                              .value
-                                                              .users[index]
-                                                              .muted)
-                                                      : Container(),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child:
+                                                        widget.enableHostControl !=
+                                                                true
+                                                            ? Container()
+                                                            : HostControls(
+                                                                client: widget
+                                                                    .client,
+                                                                videoDisabled: widget
+                                                                    .client
+                                                                    .sessionController
+                                                                    .value
+                                                                    .users[
+                                                                        index]
+                                                                    .videoDisabled,
+                                                                muted: widget
+                                                                    .client
+                                                                    .sessionController
+                                                                    .value
+                                                                    .users[
+                                                                        index]
+                                                                    .muted,
+                                                                index: index,
+                                                              ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
-                                ],
-                              ),
-                            ),
-                          )
-                        : Container();
-                  },
-                ),
-              ),
-              widget.client.sessionController.value.mainAgoraUser.uid !=
-                          widget.client.sessionController.value.localUid &&
-                      widget.client.sessionController.value.mainAgoraUser.uid !=
-                          0
-                  ? Expanded(
-                      child: Stack(
-                        children: [
-                          Container(
-                            padding: widget.floatingLayoutMainViewPadding,
-                            child: widget.client.sessionController.value
-                                    .mainAgoraUser.videoDisabled
-                                ? widget.disabledVideoWidget
-                                : Column(
-                                    children: [
-                                      _videoView(_getRemoteViews(widget
-                                          .client
-                                          .sessionController
-                                          .value
-                                          .mainAgoraUser
-                                          .uid))
-                                    ],
-                                  ),
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: widget.enableHostControl != true
-                                ? Container()
-                                : HostControls(
-                                    client: widget.client,
-                                    videoDisabled: widget
-                                        .client
-                                        .sessionController
-                                        .value
-                                        .mainAgoraUser
-                                        .videoDisabled,
-                                    muted: widget.client.sessionController.value
-                                        .mainAgoraUser.muted,
-                                    index: widget
-                                        .client.sessionController.value.users
-                                        .indexWhere(
-                                      (element) =>
-                                          element.uid ==
-                                          widget.client.sessionController.value
-                                              .mainAgoraUser.uid,
-                                    ),
-                                  ),
-                          ),
-                        ],
+                                            widget.showAVState!
+                                                ? UserAVStateWidget(
+                                                    videoDisabled: widget
+                                                        .client
+                                                        .sessionController
+                                                        .value
+                                                        .users[index]
+                                                        .videoDisabled,
+                                                    muted: widget
+                                                        .client
+                                                        .sessionController
+                                                        .value
+                                                        .users[index]
+                                                        .muted)
+                                                : Container(),
+                                          ],
+                                        ),
+                                      ),
+                          ],
+                        ),
                       ),
                     )
-                  : Expanded(
-                      child: Container(
-                        padding: widget.floatingLayoutMainViewPadding,
-                        child: widget.client.sessionController.value
-                                    .isLocalVideoDisabled &&
-                                !widget.client.sessionController.value
-                                    .isScreenShared
-                            ? widget.disabledVideoWidget
-                            : Stack(
-                                children: [
-                                  Container(
-                                    color: Colors.black,
-                                    child: Center(
-                                      child: Text(
-                                        'Local User',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      _videoView(
-                                        _getLocalViews(),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                      ),
-                    ),
-            ],
+                  : Container();
+            }).toList(),
           )
+        // ? Column(
+        //     children: [
+
+        //       Container(
+        //         height: widget.floatingLayoutContainerHeight ??
+        //             MediaQuery.of(context).size.height * 0.2,
+        //         width: MediaQuery.of(context).size.width,
+        //         alignment: Alignment.topLeft,
+        //         child: ListView.builder(
+        //           scrollDirection: Axis.horizontal,
+        //           itemCount: widget.client.sessionController.value.users.length,
+        //           itemBuilder: (BuildContext context, int index) {
+        // return widget.client.sessionController.value.users[index]
+        //             .uid !=
+        //         widget.client.sessionController.value.mainAgoraUser
+        //             .uid
+        //     ? Padding(
+        //         key: Key('$index'),
+        //         padding: widget.floatingLayoutSubViewPadding,
+        //         child: Container(
+        //           width: widget.floatingLayoutContainerWidth ??
+        //               MediaQuery.of(context).size.width / 3,
+        //           child: Column(
+        //             children: [
+        //               widget.client.sessionController.value
+        //                               .users[index].uid ==
+        //                           widget.client.sessionController
+        //                               .value.localUid ||
+        //                       widget.client.sessionController.value
+        //                               .users[index].uid ==
+        //                           0
+        //                   ? Expanded(
+        //                       child: Container(
+        //                         color: Colors.black,
+        //                         child: Stack(
+        //                           children: [
+        //                             Center(
+        //                               child: Text(
+        //                                 'Local User',
+        //                                 style: TextStyle(
+        //                                   color: Colors.white,
+        //                                 ),
+        //                               ),
+        //                             ),
+        //                             !widget
+        //                                         .client
+        //                                         .sessionController
+        //                                         .value
+        //                                         .isLocalVideoDisabled &&
+        //                                     !widget
+        //                                         .client
+        //                                         .sessionController
+        //                                         .value
+        //                                         .isScreenShared
+        //                                 ? Column(
+        //                                     children: [
+        //                                       _videoView(
+        //                                           _getLocalViews()),
+        //                                     ],
+        //                                   )
+        //                                 : widget
+        //                                     .disabledVideoWidget,
+        //                             Positioned.fill(
+        //                               child: Align(
+        //                                 alignment:
+        //                                     Alignment.topLeft,
+        //                                 child: Padding(
+        //                                   padding:
+        //                                       const EdgeInsets.all(
+        //                                           8),
+        //                                   child: GestureDetector(
+        //                                     onTap: () {
+        //                                       if (isPinned ==
+        //                                           null) {
+        //                                         widget.client
+        //                                             .sessionController
+        //                                             .swapUser(
+        //                                                 index:
+        //                                                     index);
+        //                                         setState(() {
+        //                                           isPinned = index;
+        //                                         });
+        //                                       } else {
+        //                                         ScaffoldMessenger
+        //                                                 .of(context)
+        //                                             .showSnackBar(
+        //                                                 snackBar);
+        //                                       }
+        //                                     },
+        //                                     child: Container(
+        //                                       height: 24,
+        //                                       decoration:
+        //                                           BoxDecoration(
+        //                                         color: Colors.white,
+        //                                         shape:
+        //                                             BoxShape.circle,
+        //                                       ),
+        //                                       child: Icon(
+        //                                         Icons
+        //                                             .push_pin_rounded,
+        //                                         color: Colors.blue,
+        //                                       ),
+        //                                     ),
+        //                                   ),
+        //                                 ),
+        //                               ),
+        //                             ),
+        //                             widget.showAVState!
+        //                                 ? UserAVStateWidget(
+        //                                     videoDisabled: widget
+        //                                         .client
+        //                                         .sessionController
+        //                                         .value
+        //                                         .isLocalVideoDisabled,
+        //                                     muted: widget
+        //                                         .client
+        //                                         .sessionController
+        //                                         .value
+        //                                         .isLocalUserMuted,
+        //                                   )
+        //                                 : Container(),
+        //                           ],
+        //                         ),
+        //                       ),
+        //                     )
+        //                   : widget.client.sessionController.value
+        //                           .users[index].videoDisabled
+        //                       ? Expanded(
+        //                           child: Stack(
+        //                             children: [
+        //                               Container(
+        //                                 color: Colors.black,
+        //                               ),
+        //                               widget.disabledVideoWidget,
+        //                               Positioned.fill(
+        //                                 child: Row(
+        //                                   mainAxisAlignment:
+        //                                       MainAxisAlignment
+        //                                           .spaceBetween,
+        //                                   children: [
+        //                                     Align(
+        //                                       alignment:
+        //                                           Alignment.topLeft,
+        //                                       child: Padding(
+        //                                         padding:
+        //                                             const EdgeInsets
+        //                                                 .all(8),
+        //                                         child:
+        //                                             GestureDetector(
+        //                                           onTap: () {
+        //                                             if (isPinned ==
+        //                                                 null) {
+        //                                               widget.client
+        //                                                   .sessionController
+        //                                                   .swapUser(
+        //                                                       index:
+        //                                                           index);
+        //                                               setState(() {
+        //                                                 isPinned =
+        //                                                     index;
+        //                                               });
+        //                                             } else {
+        //                                               ScaffoldMessenger.of(
+        //                                                       context)
+        //                                                   .showSnackBar(
+        //                                                       snackBar);
+        //                                             }
+        //                                           },
+        //                                           child: Container(
+        //                                             decoration:
+        //                                                 BoxDecoration(
+        //                                               color: Colors
+        //                                                   .white,
+        //                                               shape: BoxShape
+        //                                                   .circle,
+        //                                             ),
+        //                                             padding:
+        //                                                 const EdgeInsets
+        //                                                         .all(
+        //                                                     3.0),
+        //                                             child: Icon(
+        //                                               Icons
+        //                                                   .push_pin_rounded,
+        //                                               color: Colors
+        //                                                   .blue,
+        //                                             ),
+        //                                           ),
+        //                                         ),
+        //                                       ),
+        //                                     ),
+        //                                     Align(
+        //                                       alignment: Alignment
+        //                                           .topRight,
+        //                                       child:
+        //                                           widget.enableHostControl !=
+        //                                                   true
+        //                                               ? Container()
+        //                                               : HostControls(
+        //                                                   client: widget
+        //                                                       .client,
+        //                                                   videoDisabled: widget
+        //                                                       .client
+        //                                                       .sessionController
+        //                                                       .value
+        //                                                       .users[
+        //                                                           index]
+        //                                                       .videoDisabled,
+        //                                                   muted: widget
+        //                                                       .client
+        //                                                       .sessionController
+        //                                                       .value
+        //                                                       .users[
+        //                                                           index]
+        //                                                       .muted,
+        //                                                   index:
+        //                                                       index,
+        //                                                 ),
+        //                                     ),
+        //                                   ],
+        //                                 ),
+        //                               ),
+        //                               Positioned.fill(
+        //                                   child: Align(
+        //                                 alignment:
+        //                                     Alignment.bottomLeft,
+        //                               )),
+        //                               widget.showAVState!
+        //                                   ? UserAVStateWidget(
+        //                                       videoDisabled: widget
+        //                                           .client
+        //                                           .sessionController
+        //                                           .value
+        //                                           .users[index]
+        //                                           .videoDisabled,
+        //                                       muted: widget
+        //                                           .client
+        //                                           .sessionController
+        //                                           .value
+        //                                           .users[index]
+        //                                           .muted)
+        //                                   : Container(),
+        //                             ],
+        //                           ),
+        //                         )
+        //                       : Expanded(
+        //                           child: Stack(
+        //                             children: [
+        //                               Column(
+        //                                 children: [
+        //                                   _videoView(
+        //                                     _getRemoteViews(
+        //                                       widget
+        //                                           .client
+        //                                           .sessionController
+        //                                           .value
+        //                                           .users[index]
+        //                                           .uid,
+        //                                     ),
+        //                                   ),
+        //                                 ],
+        //                               ),
+        //                               Positioned.fill(
+        //                                 child: Row(
+        //                                   mainAxisAlignment:
+        //                                       MainAxisAlignment
+        //                                           .spaceBetween,
+        //                                   children: [
+        //                                     Align(
+        //                                       alignment:
+        //                                           Alignment.topLeft,
+        //                                       child: Padding(
+        //                                         padding:
+        //                                             const EdgeInsets
+        //                                                 .all(8),
+        //                                         child:
+        //                                             GestureDetector(
+        //                                           onTap: () {
+        //                                             if (isPinned ==
+        //                                                 null) {
+        //                                               widget.client
+        //                                                   .sessionController
+        //                                                   .swapUser(
+        //                                                       index:
+        //                                                           index);
+        //                                               setState(() {
+        //                                                 isPinned =
+        //                                                     index;
+        //                                               });
+        //                                             } else {
+        //                                               ScaffoldMessenger.of(
+        //                                                       context)
+        //                                                   .showSnackBar(
+        //                                                       snackBar);
+        //                                             }
+        //                                           },
+        //                                           child: Container(
+        //                                             decoration:
+        //                                                 BoxDecoration(
+        //                                               color: Colors
+        //                                                   .white,
+        //                                               shape: BoxShape
+        //                                                   .circle,
+        //                                             ),
+        //                                             padding:
+        //                                                 const EdgeInsets
+        //                                                         .all(
+        //                                                     3.0),
+        //                                             child: Icon(
+        //                                               Icons
+        //                                                   .push_pin_rounded,
+        //                                               color: Colors
+        //                                                   .blue,
+        //                                             ),
+        //                                           ),
+        //                                         ),
+        //                                       ),
+        //                                     ),
+        //                                     Align(
+        //                                       alignment: Alignment
+        //                                           .topRight,
+        //                                       child:
+        //                                           widget.enableHostControl !=
+        //                                                   true
+        //                                               ? Container()
+        //                                               : HostControls(
+        //                                                   client: widget
+        //                                                       .client,
+        //                                                   videoDisabled: widget
+        //                                                       .client
+        //                                                       .sessionController
+        //                                                       .value
+        //                                                       .users[
+        //                                                           index]
+        //                                                       .videoDisabled,
+        //                                                   muted: widget
+        //                                                       .client
+        //                                                       .sessionController
+        //                                                       .value
+        //                                                       .users[
+        //                                                           index]
+        //                                                       .muted,
+        //                                                   index:
+        //                                                       index,
+        //                                                 ),
+        //                                     ),
+        //                                   ],
+        //                                 ),
+        //                               ),
+        //                               widget.showAVState!
+        //                                   ? UserAVStateWidget(
+        //                                       videoDisabled: widget
+        //                                           .client
+        //                                           .sessionController
+        //                                           .value
+        //                                           .users[index]
+        //                                           .videoDisabled,
+        //                                       muted: widget
+        //                                           .client
+        //                                           .sessionController
+        //                                           .value
+        //                                           .users[index]
+        //                                           .muted)
+        //                                   : Container(),
+        //                             ],
+        //                           ),
+        //                         ),
+        //             ],
+        //           ),
+        //         ),
+        //       )
+        //     : Container();
+        //           },
+        //         ),
+        //       ),
+
+        //       widget.client.sessionController.value.mainAgoraUser.uid !=
+        //                   widget.client.sessionController.value.localUid &&
+        //               widget.client.sessionController.value.mainAgoraUser.uid !=
+        //                   0
+        //           ? Expanded(
+        //               child: Stack(
+        //                 children: [
+        //                   Container(
+        //                     padding: widget.floatingLayoutMainViewPadding,
+        //                     child: widget.client.sessionController.value
+        //                             .mainAgoraUser.videoDisabled
+        //                         ? widget.disabledVideoWidget
+        //                         : Column(
+        //                             children: [
+        //                               _videoView(_getRemoteViews(widget
+        //                                   .client
+        //                                   .sessionController
+        //                                   .value
+        //                                   .mainAgoraUser
+        //                                   .uid))
+        //                             ],
+        //                           ),
+        //                   ),
+        //                   Align(
+        //                     alignment: Alignment.topRight,
+        //                     child: widget.enableHostControl != true
+        //                         ? Container()
+        //                         : HostControls(
+        //                             client: widget.client,
+        //                             videoDisabled: widget
+        //                                 .client
+        //                                 .sessionController
+        //                                 .value
+        //                                 .mainAgoraUser
+        //                                 .videoDisabled,
+        //                             muted: widget.client.sessionController.value
+        //                                 .mainAgoraUser.muted,
+        //                             index: widget
+        //                                 .client.sessionController.value.users
+        //                                 .indexWhere(
+        //                               (element) =>
+        //                                   element.uid ==
+        //                                   widget.client.sessionController.value
+        //                                       .mainAgoraUser.uid,
+        //                             ),
+        //                           ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             )
+        //           : Expanded(
+        //               child: Container(
+        //                 padding: widget.floatingLayoutMainViewPadding,
+        //                 child: widget.client.sessionController.value
+        //                             .isLocalVideoDisabled &&
+        //                         !widget.client.sessionController.value
+        //                             .isScreenShared
+        //                     ? widget.disabledVideoWidget
+        //                     : Stack(
+        //                         children: [
+        //                           Container(
+        //                             color: Colors.black,
+        //                             child: Center(
+        //                               child: Text(
+        //                                 'Local User',
+        //                                 style: TextStyle(color: Colors.white),
+        //                               ),
+        //                             ),
+        //                           ),
+        //                           Column(
+        //                             children: [
+        //                               _videoView(
+        //                                 _getLocalViews(),
+        //                               ),
+        //                             ],
+        //                           ),
+        //                         ],
+        //                       ),
+        //               ),
+        //             ),
+
+        //     ],
+        //   )
         : widget.client.sessionController.value.clientRoleType ==
                 ClientRoleType.clientRoleBroadcaster
             ? widget.client.sessionController.value.isLocalVideoDisabled &&
