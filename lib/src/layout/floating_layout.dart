@@ -118,7 +118,7 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                       key: Key('$index'),
                       padding: widget.floatingLayoutSubViewPadding,
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.2,
+                        height: 200,
                         width: widget.floatingLayoutContainerWidth ??
                             MediaQuery.of(context).size.width / 3,
                         child: Column(
@@ -373,6 +373,140 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                 .showSnackBar(
                                                                     snackBar);
                                                           }
+                                                          showDialog(
+                                                              context: context,
+                                                              barrierDismissible:
+                                                                  false,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return AlertDialog(
+                                                                  titlePadding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal:
+                                                                          10,
+                                                                      vertical:
+                                                                          10),
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10)),
+                                                                  title: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      InkWell(
+                                                                        child: const Icon(
+                                                                            Icons
+                                                                                .close,
+                                                                            size:
+                                                                                16),
+                                                                        onTap: () =>
+                                                                            Navigator.of(context).pop(),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  contentPadding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal:
+                                                                          4,
+                                                                      vertical:
+                                                                          10),
+                                                                  insetPadding:
+                                                                      const EdgeInsets
+                                                                          .all(10),
+                                                                  content:
+                                                                      Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15),
+                                                                    ),
+                                                                    width: double
+                                                                        .infinity,
+                                                                    height: 200,
+                                                                    child: widget.client.sessionController.value.mainAgoraUser.uid != widget.client.sessionController.value.localUid &&
+                                                                            widget.client.sessionController.value.mainAgoraUser.uid !=
+                                                                                0
+                                                                        ? Expanded(
+                                                                            child:
+                                                                                Stack(
+                                                                              children: [
+                                                                                Container(
+                                                                                  padding: widget.floatingLayoutMainViewPadding,
+                                                                                  child: widget.client.sessionController.value.mainAgoraUser.videoDisabled
+                                                                                      ? widget.disabledVideoWidget
+                                                                                      : Column(
+                                                                                          children: [
+                                                                                            _videoView(_getRemoteViews(widget.client.sessionController.value.mainAgoraUser.uid))
+                                                                                          ],
+                                                                                        ),
+                                                                                ),
+                                                                                Align(
+                                                                                  alignment: Alignment.topRight,
+                                                                                  child: widget.enableHostControl != true
+                                                                                      ? Container()
+                                                                                      : HostControls(
+                                                                                          client: widget.client,
+                                                                                          videoDisabled: widget.client.sessionController.value.mainAgoraUser.videoDisabled,
+                                                                                          muted: widget.client.sessionController.value.mainAgoraUser.muted,
+                                                                                          index: widget.client.sessionController.value.users.indexWhere(
+                                                                                            (element) => element.uid == widget.client.sessionController.value.mainAgoraUser.uid,
+                                                                                          ),
+                                                                                        ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          )
+                                                                        : Expanded(
+                                                                            child:
+                                                                                Container(
+                                                                              padding: widget.floatingLayoutMainViewPadding,
+                                                                              child: widget.client.sessionController.value.isLocalVideoDisabled && !widget.client.sessionController.value.isScreenShared
+                                                                                  ? widget.disabledVideoWidget
+                                                                                  : Stack(
+                                                                                      children: [
+                                                                                        Container(
+                                                                                          color: Colors.black,
+                                                                                          child: Center(
+                                                                                            child: Text(
+                                                                                              'Local User',
+                                                                                              style: TextStyle(color: Colors.white),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        Column(
+                                                                                          children: [
+                                                                                            _videoView(
+                                                                                              _getLocalViews(),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                            ),
+                                                                          ),
+                                                                  ),
+                                                                );
+                                                              });
+                                                          // if (isPinned ==
+                                                          //     null) {
+                                                          //   widget.client
+                                                          //       .sessionController
+                                                          //       .swapUser(
+                                                          //           index:
+                                                          //               index);
+                                                          //   setState(() {
+                                                          //     isPinned = index;
+                                                          //   });
+                                                          // } else {
+                                                          //   ScaffoldMessenger
+                                                          //           .of(context)
+                                                          //       .showSnackBar(
+                                                          //           snackBar);
+                                                          // }
                                                         },
                                                         child: Container(
                                                           decoration:
