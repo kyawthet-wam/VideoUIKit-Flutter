@@ -110,6 +110,41 @@ class _FloatingLayoutState extends State<FloatingLayout> {
     return widget.client.sessionController.value.users.isNotEmpty
         ? Column(
             children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: Container(
+                    height: 150,
+                    width: MediaQuery.sizeOf(context).width / 2,
+                    child: widget.client.sessionController.value
+                                .isLocalVideoDisabled &&
+                            !widget
+                                .client.sessionController.value.isScreenShared
+                        ? widget.disabledVideoWidget
+                        : Stack(
+                            children: [
+                              Container(
+                                color: Colors.black,
+                                child: Center(
+                                  child: Text(
+                                    'Local User',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  _videoView(
+                                    _getLocalViews(),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: ResponsiveGridList(
                   horizontalGridSpacing: 2,
@@ -491,9 +526,7 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                       ),
                                                                     ),
                                                                   );
-                                                                }).then((value) {
-                                                              setState(() {});
-                                                            });
+                                                                });
                                                             // if (isPinned ==
                                                             //     null) {
                                                             //   widget.client
@@ -590,41 +623,6 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                   }).toList(),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: Container(
-                    height: 150,
-                    width: MediaQuery.sizeOf(context).width / 2,
-                    child: widget.client.sessionController.value
-                                .isLocalVideoDisabled &&
-                            !widget
-                                .client.sessionController.value.isScreenShared
-                        ? widget.disabledVideoWidget
-                        : Stack(
-                            children: [
-                              Container(
-                                color: Colors.black,
-                                child: Center(
-                                  child: Text(
-                                    'Local User',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              Column(
-                                children: [
-                                  _videoView(
-                                    _getLocalViews(),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                  ),
-                ),
-              )
             ],
           )
         // ? Column(
