@@ -121,44 +121,7 @@ class _FloatingLayoutState extends State<FloatingLayout> {
             children: widget.client.sessionController.value.users.map((e) {
               final index =
                   widget.client.sessionController.value.users.indexOf(e);
-              if (widget.client.sessionController.value.mainAgoraUser.uid ==
-                      widget.client.sessionController.value.localUid &&
-                  widget.client.sessionController.value.mainAgoraUser.uid ==
-                      0) {
-                return Padding(
-                  key: Key('$index'),
-                  padding: widget.floatingLayoutSubViewPadding,
-                  child: Container(
-                    height: 200,
-                    child: widget.client.sessionController.value
-                                .isLocalVideoDisabled &&
-                            !widget
-                                .client.sessionController.value.isScreenShared
-                        ? widget.disabledVideoWidget
-                        : Stack(
-                            children: [
-                              Container(
-                                color: Colors.black,
-                                child: Center(
-                                  child: Text(
-                                    'Local User',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              Column(
-                                children: [
-                                  _videoView(
-                                    _getLocalViews(),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                  ),
-                );
-              } else if (widget
-                      .client.sessionController.value.users[index].uid !=
+              if (widget.client.sessionController.value.users[index].uid !=
                   widget.client.sessionController.value.mainAgoraUser.uid) {
                 return Padding(
                   key: Key('$index'),
@@ -1103,6 +1066,44 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                       ),
                     ),
                   ),
+            widget.client.sessionController.value.mainAgoraUser.uid ==
+                        widget.client.sessionController.value.localUid &&
+                    widget.client.sessionController.value.mainAgoraUser.uid == 0
+                ? Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        height: 200,
+                        child: widget.client.sessionController.value
+                                    .isLocalVideoDisabled &&
+                                !widget.client.sessionController.value
+                                    .isScreenShared
+                            ? widget.disabledVideoWidget
+                            : Stack(
+                                children: [
+                                  Container(
+                                    color: Colors.black,
+                                    child: Center(
+                                      child: Text(
+                                        'Local User',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      _videoView(
+                                        _getLocalViews(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                      ),
+                    ),
+                  )
+                : Container(),
+
             // if (isPinned != null)
             //   Positioned.fill(
             //     child: Align(
