@@ -339,13 +339,13 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       // if (isPinned == null) {
-                                                      widget.client
-                                                          .sessionController
-                                                          .swapUser(
-                                                              index: index);
-                                                      setState(() {
-                                                        isPinned = index;
-                                                      });
+                                                      // widget.client
+                                                      //     .sessionController
+                                                      //     .swapUser(
+                                                      //         index: index);
+                                                      // setState(() {
+                                                      //   isPinned = index;
+                                                      // });
                                                       // } else {
                                                       //   ScaffoldMessenger.of(
                                                       //           context)
@@ -448,15 +448,15 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                         ),
                                                                         onTap:
                                                                             () {
-                                                                          widget
-                                                                              .client
-                                                                              .sessionController
-                                                                              .swapUser(index: isPinned!);
-                                                                          setState(
-                                                                              () {
-                                                                            isPinned =
-                                                                                null;
-                                                                          });
+                                                                          // widget
+                                                                          //     .client
+                                                                          //     .sessionController
+                                                                          //     .swapUser(index: isPinned!);
+                                                                          // setState(
+                                                                          //     () {
+                                                                          //   isPinned =
+                                                                          //       null;
+                                                                          // });
                                                                           Navigator.of(context)
                                                                               .pop();
                                                                         },
@@ -1066,44 +1066,38 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                       ),
                     ),
                   ),
-            widget.client.sessionController.value.mainAgoraUser.uid ==
-                        widget.client.sessionController.value.localUid &&
-                    widget.client.sessionController.value.mainAgoraUser.uid == 0
-                ? Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        height: 200,
-                        child: widget.client.sessionController.value
-                                    .isLocalVideoDisabled &&
-                                !widget.client.sessionController.value
-                                    .isScreenShared
-                            ? widget.disabledVideoWidget
-                            : Stack(
-                                children: [
-                                  Container(
-                                    color: Colors.black,
-                                    child: Center(
-                                      child: Text(
-                                        'Local User',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      _videoView(
-                                        _getLocalViews(),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  height: 200,
+                  child: widget.client.sessionController.value
+                              .isLocalVideoDisabled &&
+                          !widget.client.sessionController.value.isScreenShared
+                      ? widget.disabledVideoWidget
+                      : Stack(
+                          children: [
+                            Container(
+                              color: Colors.black,
+                              child: Center(
+                                child: Text(
+                                  'Local User',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
-                      ),
-                    ),
-                  )
-                : Container(),
-
+                            ),
+                            Column(
+                              children: [
+                                _videoView(
+                                  _getLocalViews(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                ),
+              ),
+            ),
             // if (isPinned != null)
             //   Positioned.fill(
             //     child: Align(
