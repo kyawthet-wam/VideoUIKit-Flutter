@@ -357,22 +357,22 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                               8),
                                                       child: GestureDetector(
                                                         onTap: () {
-                                                          if (isPinned ==
-                                                              null) {
-                                                            widget.client
-                                                                .sessionController
-                                                                .swapUser(
-                                                                    index:
-                                                                        index);
-                                                            setState(() {
-                                                              isPinned = index;
-                                                            });
-                                                          } else {
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(
-                                                                    snackBar);
-                                                          }
+                                                          // if (isPinned ==
+                                                          //     null) {
+                                                          //   widget.client
+                                                          //       .sessionController
+                                                          //       .swapUser(
+                                                          //           index:
+                                                          //               index);
+                                                          //   setState(() {
+                                                          //     isPinned = index;
+                                                          //   });
+                                                          // } else {
+                                                          //   ScaffoldMessenger
+                                                          //           .of(context)
+                                                          //       .showSnackBar(
+                                                          //           snackBar);
+                                                          // }
                                                           showDialog(
                                                               context: context,
                                                               barrierDismissible:
@@ -404,15 +404,15 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                                 16),
                                                                         onTap:
                                                                             () {
-                                                                          widget
-                                                                              .client
-                                                                              .sessionController
-                                                                              .swapUser(index: isPinned!);
-                                                                          setState(
-                                                                              () {
-                                                                            isPinned =
-                                                                                null;
-                                                                          });
+                                                                          // widget
+                                                                          //     .client
+                                                                          //     .sessionController
+                                                                          //     .swapUser(index: isPinned!);
+                                                                          // setState(
+                                                                          //     () {
+                                                                          //   isPinned =
+                                                                          //       null;
+                                                                          // });
                                                                           Navigator.of(context)
                                                                               .pop();
                                                                         },
@@ -438,7 +438,6 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                     ),
                                                                     width: double
                                                                         .infinity,
-                                                                    height: 200,
                                                                     child: widget.client.sessionController.value.mainAgoraUser.uid != widget.client.sessionController.value.localUid &&
                                                                             widget.client.sessionController.value.mainAgoraUser.uid !=
                                                                                 0
@@ -1088,130 +1087,134 @@ class _FloatingLayoutState extends State<FloatingLayout> {
     return ValueListenableBuilder(
       valueListenable: widget.client.sessionController,
       builder: (context, AgoraSettings agoraSettings, widgetx) {
-        return Stack(
-          children: [
-            _viewFloat(),
-            widget.showNumberOfUsers == null ||
-                    widget.showNumberOfUsers == false
-                ? Container()
-                : Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: NumberOfUsers(
-                        userCount:
-                            widget.client.sessionController.value.users.length,
+        return SingleChildScrollView(
+          child: Stack(
+            children: [
+              _viewFloat(),
+              widget.showNumberOfUsers == null ||
+                      widget.showNumberOfUsers == false
+                  ? Container()
+                  : Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: NumberOfUsers(
+                          userCount: widget
+                              .client.sessionController.value.users.length,
+                        ),
                       ),
                     ),
-                  ),
-            // if (isPinned != null)
-            //   Positioned.fill(
-            //     child: Align(
-            //       alignment: Alignment.centerRight,
-            //       child: Padding(
-            //         padding: const EdgeInsets.all(8),
-            //         child: GestureDetector(
-            //           onTap: () {
-            //             widget.client.sessionController
-            //                 .swapUser(index: isPinned!);
-            //             setState(() {
-            //               isPinned = null;
-            //             });
-            //           },
-            //           child: Container(
-            //             decoration: BoxDecoration(
-            //               color: Colors.white,
-            //               shape: BoxShape.circle,
-            //             ),
-            //             padding: const EdgeInsets.all(3.0),
-            //             child: Icon(
-            //               Icons.pin_invoke_rounded,
-            //               color: Colors.blue,
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
+              // if (isPinned != null)
+              //   Positioned.fill(
+              //     child: Align(
+              //       alignment: Alignment.centerRight,
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(8),
+              //         child: GestureDetector(
+              //           onTap: () {
+              //             widget.client.sessionController
+              //                 .swapUser(index: isPinned!);
+              //             setState(() {
+              //               isPinned = null;
+              //             });
+              //           },
+              //           child: Container(
+              //             decoration: BoxDecoration(
+              //               color: Colors.white,
+              //               shape: BoxShape.circle,
+              //             ),
+              //             padding: const EdgeInsets.all(3.0),
+              //             child: Icon(
+              //               Icons.pin_invoke_rounded,
+              //               color: Colors.blue,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
 
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Visibility(
-                  child: Container(
-                      color: Colors.white,
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          if (widget
-                              .client.sessionController.value.showMicMessage)
-                            widget.client.sessionController.value.muteRequest ==
-                                    MicState.muted
-                                ? Text("Please unmute your mic")
-                                : Text("Please mute your mic"),
-                          if (widget
-                              .client.sessionController.value.showCameraMessage)
-                            widget.client.sessionController.value
-                                        .cameraRequest ==
-                                    CameraState.disabled
-                                ? Text("Please turn on your camera")
-                                : Text("Please turn off your camera"),
-                          TextButton(
-                            onPressed: () {
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Visibility(
+                    child: Container(
+                        color: Colors.white,
+                        width: MediaQuery.of(context).size.width,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (widget
+                                .client.sessionController.value.showMicMessage)
                               widget.client.sessionController.value
-                                          .showMicMessage &&
-                                      !widget.client.sessionController.value
-                                          .showCameraMessage
-                                  ? toggleMute(
-                                      sessionController:
-                                          widget.client.sessionController,
-                                    )
-                                  : toggleCamera(
-                                      sessionController:
-                                          widget.client.sessionController,
-                                    );
-                              widget.client.sessionController.value = widget
-                                  .client.sessionController.value
-                                  .copyWith(
-                                displaySnackbar: false,
-                                showMicMessage: false,
-                                showCameraMessage: false,
-                              );
-                            },
-                            child: widget.client.sessionController.value
-                                    .showMicMessage
-                                ? widget.client.sessionController.value
-                                            .muteRequest ==
-                                        MicState.muted
-                                    ? Text(
-                                        "Unmute",
-                                        style: TextStyle(color: Colors.blue),
+                                          .muteRequest ==
+                                      MicState.muted
+                                  ? Text("Please unmute your mic")
+                                  : Text("Please mute your mic"),
+                            if (widget.client.sessionController.value
+                                .showCameraMessage)
+                              widget.client.sessionController.value
+                                          .cameraRequest ==
+                                      CameraState.disabled
+                                  ? Text("Please turn on your camera")
+                                  : Text("Please turn off your camera"),
+                            TextButton(
+                              onPressed: () {
+                                widget.client.sessionController.value
+                                            .showMicMessage &&
+                                        !widget.client.sessionController.value
+                                            .showCameraMessage
+                                    ? toggleMute(
+                                        sessionController:
+                                            widget.client.sessionController,
                                       )
-                                    : Text(
-                                        "Mute",
-                                        style: TextStyle(color: Colors.blue),
-                                      )
-                                : widget.client.sessionController.value
-                                            .cameraRequest ==
-                                        CameraState.disabled
-                                    ? Text(
-                                        "Enable",
-                                        style: TextStyle(color: Colors.blue),
-                                      )
-                                    : Text(
-                                        "Disable",
-                                        style: TextStyle(color: Colors.blue),
-                                      ),
-                          )
-                        ],
-                      )),
-                  visible:
-                      widget.client.sessionController.value.displaySnackbar,
+                                    : toggleCamera(
+                                        sessionController:
+                                            widget.client.sessionController,
+                                      );
+                                widget.client.sessionController.value = widget
+                                    .client.sessionController.value
+                                    .copyWith(
+                                  displaySnackbar: false,
+                                  showMicMessage: false,
+                                  showCameraMessage: false,
+                                );
+                              },
+                              child: widget.client.sessionController.value
+                                      .showMicMessage
+                                  ? widget.client.sessionController.value
+                                              .muteRequest ==
+                                          MicState.muted
+                                      ? Text(
+                                          "Unmute",
+                                          style: TextStyle(color: Colors.blue),
+                                        )
+                                      : Text(
+                                          "Mute",
+                                          style: TextStyle(color: Colors.blue),
+                                        )
+                                  : widget.client.sessionController.value
+                                              .cameraRequest ==
+                                          CameraState.disabled
+                                      ? Text(
+                                          "Enable",
+                                          style: TextStyle(color: Colors.blue),
+                                        )
+                                      : Text(
+                                          "Disable",
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
+                            )
+                          ],
+                        )),
+                    visible:
+                        widget.client.sessionController.value.displaySnackbar,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
