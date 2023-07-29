@@ -107,6 +107,7 @@ class _FloatingLayoutState extends State<FloatingLayout> {
   }
 
   Widget _viewFloat() {
+    print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ $isPinned');
     return widget.client.sessionController.value.users.isNotEmpty
         ? Column(
             children: [
@@ -526,7 +527,9 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                                       ),
                                                                     ),
                                                                   );
-                                                                });
+                                                                }).then((value) {
+                                                              setState(() {});
+                                                            });
                                                             // if (isPinned ==
                                                             //     null) {
                                                             //   widget.client
@@ -555,11 +558,17 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                             padding:
                                                                 const EdgeInsets
                                                                     .all(3.0),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .push_pin_rounded,
-                                                              color:
-                                                                  Colors.blue,
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                    '$isPinned'),
+                                                                Icon(
+                                                                  Icons
+                                                                      .push_pin_rounded,
+                                                                  color: Colors
+                                                                      .blue,
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
                                                         ),
