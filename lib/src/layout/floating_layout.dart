@@ -1164,8 +1164,8 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                         ),
                       ),
                       onTap: () {
-                        widget.client.sessionController
-                            .swapUser(index: isPinned!);
+                        // widget.client.sessionController
+                        //     .swapUser(index: isPinned!);
                         setState(() {
                           isPinned = null;
                         });
