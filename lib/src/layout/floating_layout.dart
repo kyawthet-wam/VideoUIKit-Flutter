@@ -107,7 +107,6 @@ class _FloatingLayoutState extends State<FloatingLayout> {
   }
 
   Widget _viewFloat() {
-    print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ $isPinned');
     return widget.client.sessionController.value.users.isNotEmpty
         ? Column(
             children: [
@@ -121,7 +120,7 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                         padding: const EdgeInsets.only(right: 4),
                         child: SizedBox(
                           height: 250,
-                          width: MediaQuery.sizeOf(context).width / 2,
+                          width: MediaQuery.sizeOf(context).width * 0.6,
                           child: Stack(
                             children: [
                               Container(
@@ -175,7 +174,7 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                         padding: const EdgeInsets.only(right: 4),
                         child: Container(
                           height: 250,
-                          width: MediaQuery.sizeOf(context).width / 2,
+                          width: MediaQuery.sizeOf(context).width * 0.6,
                           padding: widget.floatingLayoutMainViewPadding,
                           child: widget.client.sessionController.value
                                       .isLocalVideoDisabled &&
@@ -1100,7 +1099,6 @@ class _FloatingLayoutState extends State<FloatingLayout> {
 
   @override
   Widget build(BuildContext context) {
-    print('^^^^^^^^^^^^^^^^^^^^^^^^ $isPinned');
     return ValueListenableBuilder(
       valueListenable: widget.client.sessionController,
       builder: (context, AgoraSettings agoraSettings, widgetx) {
@@ -1109,32 +1107,27 @@ class _FloatingLayoutState extends State<FloatingLayout> {
             _viewFloat(),
             if (isPinned != null)
               Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
+                top: 200,
+                right: 10,
+                child: InkWell(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
                     padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        padding: const EdgeInsets.all(20.0),
-                        child: Icon(
-                          Icons.pin_invoke_rounded,
-                          color: Colors.blue,
-                          size: 24,
-                        ),
-                      ),
-                      onTap: () {
-                        widget.client.sessionController
-                            .swapUser(index: isPinned!);
-                        setState(() {
-                          isPinned = null;
-                        });
-                      },
+                    child: Icon(
+                      Icons.pin_invoke_rounded,
+                      color: Colors.blue,
+                      size: 24,
                     ),
                   ),
+                  onTap: () {
+                    widget.client.sessionController.swapUser(index: isPinned!);
+                    setState(() {
+                      isPinned = null;
+                    });
+                  },
                 ),
               ),
             widget.showNumberOfUsers == null ||
