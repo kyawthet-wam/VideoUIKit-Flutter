@@ -1121,6 +1121,7 @@ class _FloatingLayoutState extends State<FloatingLayout> {
 
   @override
   Widget build(BuildContext context) {
+    print('^^^^^^^^^^^^^^^^^^^^^^^^ $isPinned');
     return ValueListenableBuilder(
       valueListenable: widget.client.sessionController,
       builder: (context, AgoraSettings agoraSettings, widgetx) {
@@ -1136,58 +1137,16 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     width: double.infinity,
-                    child: widget.client.sessionController.value.mainAgoraUser
-                                    .uid !=
-                                widget
-                                    .client.sessionController.value.localUid &&
-                            widget.client.sessionController.value.mainAgoraUser
-                                    .uid !=
-                                0
-                        ? Container(
-                            padding: widget.floatingLayoutMainViewPadding,
-                            child: widget.client.sessionController.value
-                                    .mainAgoraUser.videoDisabled
-                                ? widget.disabledVideoWidget
-                                : Column(
-                                    children: [
-                                      _videoView(_getRemoteViews(widget
-                                          .client
-                                          .sessionController
-                                          .value
-                                          .mainAgoraUser
-                                          .uid))
-                                    ],
-                                  ),
-                          )
-                        : Container(
-                            padding: widget.floatingLayoutMainViewPadding,
-                            child: widget.client.sessionController.value
-                                        .isLocalVideoDisabled &&
-                                    !widget.client.sessionController.value
-                                        .isScreenShared
-                                ? widget.disabledVideoWidget
-                                : Stack(
-                                    children: [
-                                      Container(
-                                        color: Colors.black,
-                                        child: Center(
-                                          child: Text(
-                                            'Local User',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                      Column(
-                                        children: [
-                                          _videoView(
-                                            _getLocalViews(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                    child: Column(
+                      children: [
+                        _videoView(
+                          _getRemoteViews(
+                            widget.client.sessionController.value
+                                .users[isPinned!].uid,
                           ),
+                        ),
+                      ],
+                    ),
                   ),
                   Positioned(
                     bottom: 10,
