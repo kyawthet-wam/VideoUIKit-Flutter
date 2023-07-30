@@ -1107,27 +1107,32 @@ class _FloatingLayoutState extends State<FloatingLayout> {
             _viewFloat(),
             if (isPinned != null)
               Positioned.fill(
-                top: 200,
-                right: 10,
-                child: InkWell(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.pin_invoke_rounded,
-                      color: Colors.blue,
-                      size: 24,
+                    child: InkWell(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.pin_invoke_rounded,
+                          color: Colors.blue,
+                          size: 24,
+                        ),
+                      ),
+                      onTap: () {
+                        widget.client.sessionController
+                            .swapUser(index: isPinned!);
+                        setState(() {
+                          isPinned = null;
+                        });
+                      },
                     ),
                   ),
-                  onTap: () {
-                    widget.client.sessionController.swapUser(index: isPinned!);
-                    setState(() {
-                      isPinned = null;
-                    });
-                  },
                 ),
               ),
             widget.showNumberOfUsers == null ||
