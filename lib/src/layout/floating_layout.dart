@@ -415,11 +415,11 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                                         child: GestureDetector(
                                                           onTap: () {
                                                             // if (isPinned == null) {
-                                                            widget.client
-                                                                .sessionController
-                                                                .swapUser(
-                                                                    index:
-                                                                        index);
+                                                            // widget.client
+                                                            //     .sessionController
+                                                            //     .swapUser(
+                                                            //         index:
+                                                            //             index);
                                                             setState(() {
                                                               isPinned = index;
                                                             });
