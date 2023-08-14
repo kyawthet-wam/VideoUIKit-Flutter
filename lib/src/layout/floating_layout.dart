@@ -140,6 +140,183 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                       ),
                               ),
                               Align(
+                                alignment: Alignment.bottomRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.open_in_full_outlined,
+                                        color: Colors.blue,
+                                        size: 24,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (BuildContext context) {
+                                            return Dialog(
+                                              backgroundColor: Colors.black,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              insetPadding:
+                                                  const EdgeInsets.all(10),
+                                              child: Stack(
+                                                children: [
+                                                  Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      width: double.infinity,
+                                                      child: Column(
+                                                        children: [
+                                                          Expanded(
+                                                            child: Stack(
+                                                              children: [
+                                                                Container(
+                                                                  padding: widget
+                                                                      .floatingLayoutMainViewPadding,
+                                                                  child: widget
+                                                                          .client
+                                                                          .sessionController
+                                                                          .value
+                                                                          .mainAgoraUser
+                                                                          .videoDisabled
+                                                                      ? widget
+                                                                          .disabledVideoWidget
+                                                                      : Column(
+                                                                          children: [
+                                                                            _videoView(_getRemoteViews(widget.client.sessionController.value.mainAgoraUser.uid))
+                                                                          ],
+                                                                        ),
+                                                                ),
+                                                                Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topRight,
+                                                                  child: widget
+                                                                              .enableHostControl !=
+                                                                          true
+                                                                      ? Container()
+                                                                      : HostControls(
+                                                                          client:
+                                                                              widget.client,
+                                                                          videoDisabled: widget
+                                                                              .client
+                                                                              .sessionController
+                                                                              .value
+                                                                              .mainAgoraUser
+                                                                              .videoDisabled,
+                                                                          muted: widget
+                                                                              .client
+                                                                              .sessionController
+                                                                              .value
+                                                                              .mainAgoraUser
+                                                                              .muted,
+                                                                          index: widget
+                                                                              .client
+                                                                              .sessionController
+                                                                              .value
+                                                                              .users
+                                                                              .indexWhere(
+                                                                            (element) =>
+                                                                                element.uid ==
+                                                                                widget.client.sessionController.value.mainAgoraUser.uid,
+                                                                          ),
+                                                                        ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Container(
+                                                              padding: widget
+                                                                  .floatingLayoutMainViewPadding,
+                                                              child: widget
+                                                                          .client
+                                                                          .sessionController
+                                                                          .value
+                                                                          .isLocalVideoDisabled &&
+                                                                      !widget
+                                                                          .client
+                                                                          .sessionController
+                                                                          .value
+                                                                          .isScreenShared
+                                                                  ? widget
+                                                                      .disabledVideoWidget
+                                                                  : Stack(
+                                                                      children: [
+                                                                        Container(
+                                                                          color:
+                                                                              Colors.black,
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              'Local User',
+                                                                              style: TextStyle(color: Colors.white),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Column(
+                                                                          children: [
+                                                                            _videoView(
+                                                                              _getLocalViews(),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                  Positioned(
+                                                    bottom: 10,
+                                                    right: 10,
+                                                    child: InkWell(
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(3.0),
+                                                        child: Icon(
+                                                          Icons
+                                                              .close_fullscreen,
+                                                          color: Colors.blue,
+                                                          size: 24,
+                                                        ),
+                                                      ),
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Align(
                                 alignment: Alignment.topRight,
                                 child: widget.enableHostControl != true
                                     ? Container()
@@ -163,6 +340,34 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                         ),
                                       ),
                               ),
+                              if (isPinned != null)
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InkWell(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.pin_invoke_rounded,
+                                          color: Colors.blue,
+                                          size: 24,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        widget.client.sessionController
+                                            .swapUser(index: isPinned!);
+                                        setState(() {
+                                          isPinned = null;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
                         ),
@@ -199,6 +404,160 @@ class _FloatingLayoutState extends State<FloatingLayout> {
                                         ),
                                       ],
                                     ),
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: InkWell(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.open_in_full_outlined,
+                                              color: Colors.blue,
+                                              size: 24,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            showDialog(
+                                                context: context,
+                                                barrierDismissible: false,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return Dialog(
+                                                    backgroundColor:
+                                                        Colors.black,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                    insetPadding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    child: Stack(
+                                                      children: [
+                                                        Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15),
+                                                            ),
+                                                            width:
+                                                                double.infinity,
+                                                            child: Expanded(
+                                                              child: Container(
+                                                                padding: widget
+                                                                    .floatingLayoutMainViewPadding,
+                                                                child: widget
+                                                                            .client
+                                                                            .sessionController
+                                                                            .value
+                                                                            .isLocalVideoDisabled &&
+                                                                        !widget
+                                                                            .client
+                                                                            .sessionController
+                                                                            .value
+                                                                            .isScreenShared
+                                                                    ? widget
+                                                                        .disabledVideoWidget
+                                                                    : Stack(
+                                                                        children: [
+                                                                          Container(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            child:
+                                                                                Center(
+                                                                              child: Text(
+                                                                                'Local User',
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Column(
+                                                                            children: [
+                                                                              _videoView(
+                                                                                _getLocalViews(),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                              ),
+                                                            )),
+                                                        Positioned(
+                                                          bottom: 10,
+                                                          right: 10,
+                                                          child: InkWell(
+                                                            child: Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(3.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .close_fullscreen,
+                                                                color:
+                                                                    Colors.blue,
+                                                                size: 24,
+                                                              ),
+                                                            ),
+                                                            onTap: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    if (isPinned != null)
+                                      Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: InkWell(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.pin_invoke_rounded,
+                                                color: Colors.blue,
+                                                size: 24,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              widget.client.sessionController
+                                                  .swapUser(index: isPinned!);
+                                              setState(() {
+                                                isPinned = null;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                   ],
                                 ),
                         ),
@@ -1105,36 +1464,6 @@ class _FloatingLayoutState extends State<FloatingLayout> {
         return Stack(
           children: [
             _viewFloat(),
-            if (isPinned != null)
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.pin_invoke_rounded,
-                          color: Colors.blue,
-                          size: 24,
-                        ),
-                      ),
-                      onTap: () {
-                        widget.client.sessionController
-                            .swapUser(index: isPinned!);
-                        setState(() {
-                          isPinned = null;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
             widget.showNumberOfUsers == null ||
                     widget.showNumberOfUsers == false
                 ? Container()
